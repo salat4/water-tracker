@@ -6,7 +6,6 @@ import { useEffect } from 'react'
 
 const Buttons = ({setWater ,water,keyboardStatus}) => {
     const [value, setValue] = useState(0);
-    const [heightKey, setHeightKey] = useState()
     const handleValue = () =>{
         Press(Number(value));
         setValue()
@@ -14,16 +13,7 @@ const Buttons = ({setWater ,water,keyboardStatus}) => {
     }
     const Press = (data) =>{
         setWater(water + data)
-    }
-    useEffect(()=>{
-        if(Keyboard.metrics() !== undefined){
-            setHeightKey(Keyboard.metrics().height)
-        }
-    })
-    useEffect(()=>{
-        console.log(heightKey)
-    })
-    
+    }    
   return (
    
     <View style={styles.container}>
@@ -96,7 +86,6 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent: "center",
         height: 356,
-        // paddingBottom:
     },
     button:{
         marginLeft:"30%",

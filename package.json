@@ -20,6 +20,8 @@
     "pod-install": "^0.1.38",
     "react": "18.1.0",
     "react-native": "0.70.5",
+    "react-native-calendars": "^1.1293.0",
+    "react-native-chart-kit": "^6.12.0",
     "react-native-sqlite-storage": "^6.0.1",
     "react-native-svg": "13.4.0",
     "uuid": "^9.0.0",

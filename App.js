@@ -11,6 +11,7 @@ export default function App() {
   const [activePage,setActivePage] = useState("main");
   const [water, setWater] = useState(0);
   const [value,setValue] = useState();
+  
   const [keyboardStatus,setKeyboardStatus] = useState(false)
   const [todayValue, setTodayValue] = useState();
   const db = SQLite.openDatabase("water.db");
@@ -27,6 +28,20 @@ export default function App() {
 
     return [year, month, day].join('-');
 }
+const clearTable = async () => {
+  await db.transaction((txn) => {
+    txn.executeSql(
+      `DELETE FROM water`,
+      [],
+      (sqlTxn, res) => {
+        console.log("Data deleted successfully");
+      },
+      (error) => {
+        console.log("Error on deleting data " + error.message);
+      }
+    );
+  });
+};
   const createTables = async() => {
     await db.transaction(txn => {
       txn.executeSql(
@@ -98,7 +113,7 @@ export default function App() {
     await db.transaction(txn => {
       txn.executeSql(
         `SELECT id, date, value FROM water WHERE date = ?`,
-        [data],
+        [data, water],
         async(sqlTxn, res) => {
           let len = res.rows.length;
           if (len === 0) {
@@ -108,7 +123,7 @@ export default function App() {
           else {
             if(water !== 0){
             const updateQuery = `UPDATE water SET value = ${water} WHERE date = ?`;
-            await db.transaction((tx)=>{tx.executeSql(updateQuery, [data])});
+            await db.transaction((tx)=>{tx.executeSql(updateQuery,[data, water])});
             }
           }
         },
@@ -121,6 +136,9 @@ export default function App() {
   // MOUNT
   useEffect(()=>{
     createTables();
+    saveValue()
+    // getValue()
+    // clearTable()
     getTodayValue();
   },[])
 
@@ -153,7 +171,7 @@ export default function App() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
           <Header/>
-        {activePage === "main" ? <Main water={water} keyboardStatus = {keyboardStatus} setWater = {setWater}/> : <History value = {value}/>}
+        {activePage === "main" ? <Main water={water} keyboardStatus = {keyboardStatus} setWater = {setWater}/> : <History value = {value} getValue = {getValue}/>}
           <Footer page = {activePage} setActivePage = {setActivePage} />
           <StatusBar style="auto" />
       </SafeAreaView>

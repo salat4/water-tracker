@@ -5,18 +5,14 @@ import Buttons from '../components/Buttons';
 import { useEffect } from 'react';
 
 const Main = ({water,setWater,keyboardStatus}) => {
-
   return (
-    
     <View style= {styles.mainContainer}>
       <View>
         <Text style = {styles.header}>Today</Text>
         <Text style = {styles.target}>Water target : 2000 ml</Text>
       </View>
-      {/* <View style = {styles.hero}> */}
       <SvgComponent water={water}/>
       <Buttons setWater = {setWater} water={water} keyboardStatus = {keyboardStatus}/>
-      {/* </View> */}
     </View>
   )
 }
